@@ -5,6 +5,8 @@ echo "EasySteer - Steer Vector Control Panel"
 echo "========================================"
 echo ""
 
+export VLLM_USE_V1=1
+
 # 检查Python是否安装
 if ! command -v python3 &> /dev/null; then
     echo "[错误] 未检测到Python3，请先安装Python3"
