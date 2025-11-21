@@ -1,4 +1,5 @@
 import { SignInForm } from "@/components/auth/SignInForm";
+import { Suspense } from "react";
 
 export default function LoginPage() {
   return (
@@ -12,7 +13,9 @@ export default function LoginPage() {
             Or create a new account
           </p>
         </div>
-        <SignInForm />
+        <Suspense fallback={<div className="text-center">Loading...</div>}>
+          <SignInForm />
+        </Suspense>
       </div>
     </div>
   );

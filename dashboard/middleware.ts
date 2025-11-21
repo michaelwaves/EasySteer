@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 
 const protectedRoutes = [
   "/dashboard",
@@ -7,7 +6,7 @@ const protectedRoutes = [
   "/organizations",
 ];
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Check if the route is protected
@@ -19,13 +18,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Get session from Better Auth
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
+  // Check for session cookie
+  const sessionCookie = request.cookies.get("better-auth.session_token");
 
-  // If no session, redirect to login
-  if (!session) {
+  // If no session cookie, redirect to login
+  if (!sessionCookie) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);

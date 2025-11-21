@@ -2,29 +2,17 @@
 
 import { UserSession } from "@/components/UserSession";
 import { authClient } from "@/lib/auth-client";
-import { useState, useEffect } from "react";
 
 export default function DashboardPage() {
-  const { data: session } = authClient.useSession();
-  const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: session, isPending } = authClient.useSession();
 
-  useEffect(() => {
-    const loadOrganizations = async () => {
-      try {
-        if (session?.user) {
-          const data = await authClient.organization.listMembers();
-          setOrganizations(data?.organizations || []);
-        }
-      } catch (error) {
-        console.error("Failed to load organizations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadOrganizations();
-  }, [session]);
+  if (isPending) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -37,38 +25,36 @@ export default function DashboardPage() {
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 p-6">
-            {loading ? (
-              <div className="text-center text-gray-600">
-                Loading organizations...
-              </div>
-            ) : organizations.length === 0 ? (
-              <div className="text-center">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No organizations yet
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Create your first organization to get started
-                </p>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                  Create Organization
-                </button>
-              </div>
-            ) : (
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Your Organizations</h2>
-                <ul className="space-y-2">
-                  {organizations.map((org: any) => (
-                    <li
-                      key={org.id}
-                      className="p-4 bg-white rounded border border-gray-200"
-                    >
-                      {org.name}
-                    </li>
-                  ))}
-                </ul>
+          <div className="border-4 border-dashed border-gray-200 rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-6">Welcome to Your Dashboard</h2>
+
+            {session?.user && (
+              <div className="bg-white rounded-lg shadow p-6 mb-6">
+                <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
+                <div className="space-y-2">
+                  <p><span className="font-medium">Name:</span> {session.user.name}</p>
+                  <p><span className="font-medium">Email:</span> {session.user.email}</p>
+                  <p><span className="font-medium">User ID:</span> {session.user.id}</p>
+                  {session.user.image && (
+                    <img
+                      src={session.user.image}
+                      alt={session.user.name}
+                      className="w-16 h-16 rounded-full mt-4"
+                    />
+                  )}
+                </div>
               </div>
             )}
+
+            <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+              <h3 className="text-lg font-semibold mb-2 text-blue-900">Getting Started</h3>
+              <ul className="space-y-2 text-blue-900">
+                <li>✓ Authentication is working!</li>
+                <li>✓ You can create organizations to manage teams</li>
+                <li>✓ Each organization can have multiple teams</li>
+                <li>✓ Assign roles and permissions to members</li>
+              </ul>
+            </div>
           </div>
         </div>
       </main>
