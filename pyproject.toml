@@ -17,6 +17,7 @@ dependencies = [
     "datasets",
     "matplotlib",
     "accelerate",
+    "gguf>=0.17.1",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
