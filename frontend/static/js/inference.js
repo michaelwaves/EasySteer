@@ -7,7 +7,7 @@ export function showResponse(data) {
     const responseDiv = document.getElementById('response');
     const responseContent = document.getElementById('responseContent');
     const errorDiv = document.getElementById('error');
-    
+
     // Format and display the generation result
     if (data.generated_text) {
         // Check if we have both baseline and steered text for comparison
@@ -34,10 +34,10 @@ export function showResponse(data) {
         // For non-generation responses (messages, etc.)
         responseContent.innerHTML = `<pre>${escapeHtml(JSON.stringify(data, null, 2))}</pre>`;
     }
-    
+
     responseDiv.style.display = 'block';
     errorDiv.style.display = 'none';
-    
+
     // Scroll to the result
     responseDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -47,11 +47,11 @@ export function showError(message) {
     const errorDiv = document.getElementById('error');
     const errorContent = document.getElementById('errorContent');
     const responseDiv = document.getElementById('response');
-    
+
     errorContent.textContent = message;
     errorDiv.style.display = 'block';
     responseDiv.style.display = 'none';
-    
+
     // Scroll to the error
     errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -63,14 +63,14 @@ export async function submitConfiguration() {
         model_path: document.getElementById('modelPath').value,
         gpu_devices: document.getElementById('gpuDevices').value,
         instruction: document.getElementById('instruction').value,
-        
+
         // Sampling parameters
         sampling_params: {
             temperature: parseFloat(document.getElementById('temperature').value),
             max_tokens: parseInt(document.getElementById('maxTokens').value),
             repetition_penalty: parseFloat(document.getElementById('repetitionPenalty').value)
         },
-        
+
         // Steer Vector configuration
         steer_vector_name: document.getElementById('steerVectorName').value,
         steer_vector_id: parseInt(document.getElementById('steerVectorId').value),
@@ -130,14 +130,14 @@ export function resetForm() {
     document.getElementById('modelPath').value = '';
     document.getElementById('gpuDevices').value = '0';
     document.getElementById('instruction').value = '';
-    
+
     // Sampling parameters
     document.getElementById('temperature').value = '0.0';
     document.getElementById('temperatureSlider').value = '0.0';
     document.getElementById('maxTokens').value = '128';
     document.getElementById('repetitionPenalty').value = '1.1';
     document.getElementById('repetitionPenaltySlider').value = '1.1';
-    
+
     // Steer Vector configuration
     document.getElementById('steerVectorName').value = '';
     document.getElementById('steerVectorId').value = '';
@@ -150,7 +150,7 @@ export function resetForm() {
     document.getElementById('prefillTriggerPositions').value = '';
     document.getElementById('generateTriggerTokens').value = '';
     document.getElementById('fileInput').value = '';
-    
+
     // Hide results and errors
     document.getElementById('response').style.display = 'none';
     document.getElementById('error').style.display = 'none';
@@ -163,12 +163,12 @@ export async function loadConfigOptions() {
         if (response.ok) {
             const data = await response.json();
             const configSelect = document.getElementById('configSelect');
-            
+
             // Clear existing options (except the default one)
             while (configSelect.children.length > 1) {
                 configSelect.removeChild(configSelect.lastChild);
             }
-            
+
             // Add dynamically loaded configuration options (single vector configs only)
             data.configs
                 .filter(config => config.type === 'single_vector')
@@ -188,35 +188,35 @@ export async function loadConfigOptions() {
 export async function importSelectedConfig() {
     const configSelect = document.getElementById('configSelect');
     const selectedConfig = configSelect.value;
-    
+
     if (!selectedConfig) {
         showError(window.t('error_select_config'));
         return;
     }
-    
+
     try {
         window.showStatus(window.t('importing_config', { configName: configSelect.options[configSelect.selectedIndex].text }), 'info');
-        
+
         // Get config file from the backend
         const response = await fetch(`${window.location.protocol}//${window.location.hostname}:5000/api/config/${selectedConfig}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const config = await response.json();
-        
+
         // Set model configuration
         document.getElementById('modelPath').value = config.model.path || '';
         document.getElementById('gpuDevices').value = config.model.gpu_devices || '';
         document.getElementById('instruction').value = config.model.instruction || '';
-        
+
         // Set sampling parameters
         document.getElementById('temperature').value = config.sampling.temperature || '0.0';
         document.getElementById('temperatureSlider').value = config.sampling.temperature || '0.0';
         document.getElementById('maxTokens').value = config.sampling.max_tokens || '128';
         document.getElementById('repetitionPenalty').value = config.sampling.repetition_penalty || '1.1';
         document.getElementById('repetitionPenaltySlider').value = config.sampling.repetition_penalty || '1.1';
-        
+
         // Set Steer Vector configuration
         document.getElementById('steerVectorName').value = config.steer_vector.name || '';
         document.getElementById('steerVectorId').value = config.steer_vector.id || '';
@@ -225,7 +225,7 @@ export async function importSelectedConfig() {
         document.getElementById('scaleSlider').value = config.steer_vector.scale || '1.0';
         document.getElementById('algorithm').value = config.steer_vector.algorithm || 'direct';
         document.getElementById('targetLayers').value = config.steer_vector.target_layers || '';
-        
+
         // Set trigger configuration - based on algorithm type
         if (config.steer_vector.algorithm === 'loreft') {
             // LoReft algorithm uses position triggers
@@ -238,15 +238,15 @@ export async function importSelectedConfig() {
             document.getElementById('generateTriggerTokens').value = config.steer_vector.generate_trigger_tokens || '';
             document.getElementById('prefillTriggerPositions').value = '';
         }
-        
+
         showResponse({
             message: window.t('import_success_message'),
             description: window.t('import_success_description', { configName: configSelect.options[configSelect.selectedIndex].text })
         });
-        
+
         // Clear selection box
         configSelect.value = '';
-        
+
     } catch (error) {
         showError(window.t('import_fail_error') + ': ' + error.message);
     }

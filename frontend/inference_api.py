@@ -189,7 +189,7 @@ def generate():
             steer_vector_name="baseline",
             steer_vector_int_id=1,
             # We still need a valid path
-            steer_vector_local_path="/home/xhl/my_lab/EasySteerTest/diffmean_control_vector.gguf",
+            steer_vector_local_path=data["steer_vector_local_path"],
             scale=0.0,  # Zero scale = no steering
             target_layers=[0],
             algorithm="direct"  # Simple algorithm for baseline

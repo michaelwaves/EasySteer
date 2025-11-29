@@ -8,7 +8,8 @@ from inference_api import inference_bp
 from extraction_api import extraction_bp
 from sae_api import sae_bp
 from chat_api import chat_bp
-
+import os
+os.environ["VLLM_USE_V1"] = "1"
 app = Flask(__name__)
 CORS(app)  # Enable CORS
 
@@ -23,6 +24,7 @@ app.register_blueprint(extraction_bp)
 app.register_blueprint(sae_bp)
 app.register_blueprint(chat_bp)
 
+
 @app.route('/')
 def index():
     """Root endpoint"""
@@ -32,12 +34,13 @@ def index():
         'modules': ['inference', 'training', 'extraction', 'sae', 'chat']
     }), 200
 
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     # Get status from various modules
     from inference_api import active_steer_vectors, llm_instances
-    
+
     return jsonify({
         'status': 'healthy',
         'active_steer_vectors': len(active_steer_vectors),
@@ -73,6 +76,7 @@ def health_check():
         ]
     }), 200
 
+
 if __name__ == '__main__':
     print("🚀 Starting EasySteer Backend Server...")
     print("📍 Server URL: http://localhost:5000")
@@ -83,11 +87,11 @@ if __name__ == '__main__':
     print("🧩 SAE APIs: /api/sae/search, /api/sae/feature")
     print("💬 Chat APIs: /api/chat, /api/chat/stream")
     print("=" * 60)
-    
+
     try:
         # Development mode configuration
         app.run(host='0.0.0.0', port=5000, debug=True)
     except Exception as e:
         print(f"❌ Failed to start server: {e}")
         import traceback
-        traceback.print_exc() 
+        traceback.print_exc()

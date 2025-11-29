@@ -78,7 +78,7 @@ def get_or_create_llm(model_path, gpu_devices="0"):
         try:
             # Set environment variables - ensure V0 is used to support steer vectors
             os.environ["CUDA_VISIBLE_DEVICES"] = gpu_devices
-            os.environ["VLLM_USE_V1"] = ""
+            os.environ["VLLM_USE_V1"] = "1"
 
             # Calculate tensor_parallel_size
             gpu_count = len(gpu_devices.split(','))

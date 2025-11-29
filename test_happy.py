@@ -9,13 +9,13 @@ llm = LLM(model="Qwen/Qwen2.5-7B-Instruct", enable_steer_vector=True,
 
 
 sampling_params = SamplingParams(
-    temperature=0.0,
-    max_tokens=256,
+    temperature=0.6,
+    max_tokens=128,
 )
 text = "<|im_start|>user\nAlice's dog has passed away. Please comfort her.<|im_end|>\n<|im_start|>assistant\n"
 target_layers = list(range(8, 20))
-scale = 0.5
-steering_vector = "happiness"
+scale = 1
+steering_vector = "sadness"
 
 baseline_request = SteerVectorRequest("baseline", 1, steer_vector_local_path=f"vectors/persona_vectors/Qwen2.5-7B-Instruct/{steering_vector}_response_avg_diff.pt",
                                       scale=0, target_layers=target_layers, prefill_trigger_tokens=[-1], generate_trigger_tokens=[-1])

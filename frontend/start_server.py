@@ -12,6 +12,7 @@ import subprocess
 import importlib.util
 from pathlib import Path
 
+
 def check_dependencies():
     """Check for necessary dependencies"""
     required_packages = [
@@ -21,9 +22,9 @@ def check_dependencies():
         'torch',
         'vllm',
     ]
-    
+
     missing_packages = []
-    
+
     for package in required_packages:
         try:
             spec = importlib.util.find_spec(package)
@@ -31,7 +32,7 @@ def check_dependencies():
                 missing_packages.append(package)
         except ImportError:
             missing_packages.append(package)
-    
+
     if missing_packages:
         print("❌ Missing required packages:")
         for package in missing_packages:
@@ -39,14 +40,15 @@ def check_dependencies():
         print("\n💡 Install missing packages with:")
         print(f"   pip install {' '.join(missing_packages)}")
         return False
-    
+
     print("✅ All required packages are installed")
     return True
+
 
 def check_environment():
     """Check the environment configuration"""
     print("🔍 Checking environment...")
-    
+
     # Check CUDA availability
     try:
         import torch
@@ -60,20 +62,21 @@ def check_environment():
             print("⚠️  CUDA not available - training will use CPU (slower)")
     except ImportError:
         print("⚠️  PyTorch not installed - cannot check CUDA")
-    
+
     # Check working directory
     current_dir = Path.cwd()
     if current_dir.name != 'frontend':
         print(f"⚠️  Current directory: {current_dir}")
         print("💡 Recommended to run from the 'frontend' directory")
-    
+
     # Check results directory
     results_dir = Path("./results")
     if not results_dir.exists():
         print("📁 Creating results directory...")
         results_dir.mkdir(exist_ok=True)
-    
+
     return True
+
 
 def display_startup_info():
     """Display startup information"""
@@ -101,44 +104,46 @@ def display_startup_info():
     print("   python demo_training.py --model /path/to/model --preset emoji")
     print()
 
+
 def main():
     """Main function"""
     print("🎯 EasySteer Server Launcher")
     print("-" * 30)
-    
+
     # Check dependencies
     if not check_dependencies():
         print("\n❌ Dependency check failed. Please install missing packages.")
         sys.exit(1)
-    
+
     # Check environment
     if not check_environment():
         print("\n❌ Environment check failed.")
         sys.exit(1)
-    
+
     # Display startup info
     display_startup_info()
-    
+
     # Ask whether to continue
     try:
-        response = input("Press Enter to start the server (or Ctrl+C to cancel): ")
+        response = input(
+            "Press Enter to start the server (or Ctrl+C to cancel): ")
     except KeyboardInterrupt:
         print("\n👋 Startup cancelled by user.")
         sys.exit(0)
-    
+
     # Start the server
     print("\n🚀 Starting EasySteer server...")
     print("=" * 40)
-    
+
     try:
         # Set environment variables
         env = os.environ.copy()
         env['FLASK_ENV'] = 'development'
-        env['VLLM_USE_V1'] = '0'  # Ensure V0 is used to support steer vectors
-        
+        env['VLLM_USE_V1'] = '1'  # Ensure V0 is used to support steer vectors
+
         # Start the Flask application
         subprocess.run([sys.executable, 'app.py'], env=env)
-        
+
     except KeyboardInterrupt:
         print("\n\n👋 Server stopped by user.")
     except FileNotFoundError:
@@ -148,5 +153,6 @@ def main():
         print(f"\n❌ Error starting server: {str(e)}")
         sys.exit(1)
 
+
 if __name__ == "__main__":
-    main() 
+    main()
