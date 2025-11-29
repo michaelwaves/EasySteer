@@ -1,0 +1,23 @@
+# FastAPI Dependencies
+fastapi>=0.95.0
+uvicorn[standard]>=0.20.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# Existing vLLM and related dependencies
+torch>=2.0.0
+transformers>=4.30.0
+vllm>=0.4.0
+
+# Optional: For production deployment
+gunicorn>=21.0.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+httpx>=0.24.0
+
+# Code quality
+black>=23.0.0
+mypy>=1.0.0
+ruff>=0.1.0
