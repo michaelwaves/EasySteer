@@ -306,6 +306,3 @@ async def list_presets():
 
 # Initialize preset configs when module is loaded
 load_preset_configs()
-
-if __name__ == "__main__":
-    uvicorn.run("chat_fastapi:app", port=8000, host="0.0.0.0", reload=True)
