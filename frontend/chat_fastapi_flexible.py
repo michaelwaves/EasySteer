@@ -34,13 +34,15 @@ class ChatMessage(BaseModel):
 
 class SteeringVectorConfig(BaseModel):
     """Configuration for a steering vector"""
-    path: str = Field(..., description="Local path to steering vector file (.pt or .gguf)")
+    path: str = Field(...,
+                      description="Local path to steering vector file (.pt or .gguf)")
     scale: float = Field(1.0, description="Scale factor for the vector")
     target_layers: List[int] = Field(
         default_factory=lambda: list(range(8, 26)),
         description="Layer indices to apply steering to"
     )
-    algorithm: str = Field("direct", description="Algorithm: 'direct' or 'loreft'")
+    algorithm: str = Field(
+        "direct", description="Algorithm: 'direct' or 'loreft'")
     prefill_trigger_token_ids: Optional[List[int]] = Field(
         default=[-1],
         description="Token IDs to trigger on during prefill phase (-1 = all tokens)"
@@ -49,12 +51,14 @@ class SteeringVectorConfig(BaseModel):
         default=[-1],
         description="Token IDs to trigger on during generation phase (-1 = all tokens)"
     )
-    normalize: bool = Field(False, description="Whether to normalize the vector")
+    normalize: bool = Field(
+        False, description="Whether to normalize the vector")
 
 
 class ModelConfig(BaseModel):
     """Configuration for the language model"""
-    path: str = Field(..., description="Model path (HuggingFace model ID or local path)")
+    path: str = Field(...,
+                      description="Model path (HuggingFace model ID or local path)")
 
 
 class ChatRequest(BaseModel):
@@ -81,10 +85,14 @@ class ChatRequest(BaseModel):
     )
 
     # Generation parameters
-    gpu_devices: str = Field("0", description="GPU device IDs (comma-separated)")
-    temperature: float = Field(0.8, ge=0.0, le=2.0, description="Sampling temperature")
-    max_tokens: int = Field(512, ge=1, le=4096, description="Maximum tokens to generate")
-    repetition_penalty: float = Field(1.1, ge=1.0, le=2.0, description="Repetition penalty")
+    gpu_devices: str = Field(
+        "0", description="GPU device IDs (comma-separated)")
+    temperature: float = Field(
+        0.8, ge=0.0, le=2.0, description="Sampling temperature")
+    max_tokens: int = Field(
+        512, ge=1, le=4096, description="Maximum tokens to generate")
+    repetition_penalty: float = Field(
+        1.1, ge=1.0, le=2.0, description="Repetition penalty")
 
     # Additional options
     debug: bool = Field(False, description="Enable debug output")
@@ -195,14 +203,17 @@ async def chat(request_data: ChatRequest) -> ChatResponse:
 
     try:
         # Get or create LLM instance
-        llm = get_or_create_llm(request_data.model.path, request_data.gpu_devices)
+        llm = get_or_create_llm(request_data.model.path,
+                                request_data.gpu_devices)
 
         # Use steered_history if provided, otherwise use history
         steered_history = request_data.steered_history or request_data.history
 
         # Format prompts
-        prompt = get_model_prompt(request_data.model.path, request_data.message, request_data.history)
-        steered_prompt = get_model_prompt(request_data.model.path, request_data.message, steered_history)
+        prompt = get_model_prompt(
+            request_data.model.path, request_data.message, request_data.history)
+        steered_prompt = get_model_prompt(
+            request_data.model.path, request_data.message, steered_history)
 
         # Create sampling parameters
         sampling_params = SamplingParams(
@@ -215,7 +226,7 @@ async def chat(request_data: ChatRequest) -> ChatResponse:
         baseline_request = SteerVectorRequest(
             steer_vector_name="baseline",
             steer_vector_int_id=1,
-            steer_vector_local_path=request_data.model.path,  # Dummy path
+            steer_vector_local_path=request_data.steering_vector.path,  # Dummy path
             scale=0.0,  # Zero scale = no steering
             target_layers=[0],
             algorithm="direct"

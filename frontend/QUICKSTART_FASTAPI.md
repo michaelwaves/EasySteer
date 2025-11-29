@@ -44,14 +44,48 @@ Try out endpoints directly from the browser!
 ### 2. Basic Chat Request
 
 ```bash
-curl -X POST "http://localhost:5000/api/chat" \
-    -H "Content-Type: application/json" \
-    -d '{
-        "preset": "happy_mode",
-        "message": "Hello, how are you?",
-        "history": [],
-        "gpu_devices": "0"
-    }'
+curl -X 'POST' \
+  'http://127.0.0.1:5000/api/chat' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "message": "Alice'\''s dog has passed away. Please comfort her.",
+  "history": [
+    {
+      "role": "system",
+      "content": "you are a helpful assistant"
+    }
+  ],
+  "steered_history": [
+    {
+      "role": "system",
+      "content": "you are a helpful assistant"
+    }
+  ],
+  "model": {
+    "path": "Qwen/Qwen2.5-7B-Instruct"
+  },
+  "steering_vector": {
+    "path": "../vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt",
+    "scale": 0.2,
+    "target_layers": [
+      8,9,10,11,12,13,14,15,16,17,18,19,20
+    ],
+    "algorithm": "direct",
+    "prefill_trigger_token_ids": [
+      -1
+    ],
+    "generate_trigger_token_ids": [
+      -1
+    ],
+    "normalize": false
+  },
+  "gpu_devices": "0",
+  "temperature": 0.6,
+  "max_tokens": 256,
+  "repetition_penalty": 1.1,
+  "debug": false
+}'
 ```
 
 ### 3. Python Client

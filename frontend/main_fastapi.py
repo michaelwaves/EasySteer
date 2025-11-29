@@ -15,7 +15,7 @@ import logging
 import os
 
 # Import routers
-from chat_fastapi import chat_router, load_preset_configs
+from chat_fastapi_flexible import chat_router
 # from inference_fastapi import inference_router  # (if you create this)
 # from extraction_fastapi import extraction_router  # (if you create this)
 
@@ -51,8 +51,8 @@ app.add_middleware(
 async def startup_event():
     """Initialize configuration on startup"""
     logger.info("EasySteer API starting up...")
-    load_preset_configs()
-    logger.info("Preset configurations loaded")
+    # load_preset_configs()
+    # logger.info("Preset configurations loaded")
 
 
 @app.on_event("shutdown")
