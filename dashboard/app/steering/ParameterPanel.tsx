@@ -5,21 +5,21 @@ import { Loader2 } from 'lucide-react';
 
 // Emotion vectors mapping
 const EMOTION_VECTORS = {
-  happiness: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
-  sadness: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/sadness_response_avg_diff.pt',
-  curiosity: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/curiosity_response_avg_diff.pt',
-  anger: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/anger_response_avg_diff.pt',
-  fear: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/fear_response_avg_diff.pt',
-  surprise: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/surprise_response_avg_diff.pt'
+  happiness: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
+  sadness: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/sadness_response_avg_diff.pt',
+  disgust: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/disgust_response_avg_diff.pt',
+  anger: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/anger_response_avg_diff.pt',
+  fear: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/fear_response_avg_diff.pt',
+  surprise: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/surprise_response_avg_diff.pt'
 };
 
 const EMOTION_LABELS = {
-  happiness: 'Happiness',
-  sadness: 'Sadness',
-  curiosity: 'Curiosity',
-  anger: 'Anger',
-  fear: 'Fear',
-  surprise: 'Surprise'
+  happiness: 'Happiness 😃',
+  sadness: 'Sadness 😭',
+  disgust: 'Disgust 🤮',
+  anger: 'Anger 😡',
+  fear: 'Fear 😨',
+  surprise: 'Surprise 😮'
 };
 
 interface ParameterPanelProps {
@@ -100,6 +100,58 @@ export function ParameterPanel({
           </select>
         </div>
 
+        {/* Steering Parameters */}
+        <div className="space-y-4">
+          <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+            Steering Controls
+          </h3>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Scale: {config.steering_vector_scale.toFixed(2)}
+            </label>
+            <input
+              type="range"
+              min="-1"
+              max="1"
+              step="0.05"
+              value={config.steering_vector_scale}
+              onChange={(e) => handleChange('steering_vector_scale', parseFloat(e.target.value))}
+              disabled={isLoading}
+              className="w-full disabled:cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Algorithm
+            </label>
+            <select
+              value={config.algorithm}
+              onChange={(e) => handleChange('algorithm', e.target.value)}
+              disabled={isLoading}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed"
+            >
+              <option value="direct">Direct</option>
+              <option value="loreft">LoReFT</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Target Layers (comma-separated)
+            </label>
+            <input
+              type="text"
+              value={config.target_layers}
+              onChange={(e) => handleChange('target_layers', e.target.value)}
+              disabled={isLoading}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed font-mono text-xs"
+            />
+          </div>
+        </div>
+
+
         {/* Generation Parameters */}
         <div className="space-y-4">
           <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
@@ -151,57 +203,6 @@ export function ParameterPanel({
               onChange={(e) => handleChange('repetition_penalty', parseFloat(e.target.value))}
               disabled={isLoading}
               className="w-full disabled:cursor-not-allowed"
-            />
-          </div>
-        </div>
-
-        {/* Steering Parameters */}
-        <div className="space-y-4">
-          <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
-            Steering
-          </h3>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Scale: {config.steering_vector_scale.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="-1"
-              max="1"
-              step="0.05"
-              value={config.steering_vector_scale}
-              onChange={(e) => handleChange('steering_vector_scale', parseFloat(e.target.value))}
-              disabled={isLoading}
-              className="w-full disabled:cursor-not-allowed"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Algorithm
-            </label>
-            <select
-              value={config.algorithm}
-              onChange={(e) => handleChange('algorithm', e.target.value)}
-              disabled={isLoading}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed"
-            >
-              <option value="direct">Direct</option>
-              <option value="loreft">LoReFT</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Target Layers (comma-separated)
-            </label>
-            <input
-              type="text"
-              value={config.target_layers}
-              onChange={(e) => handleChange('target_layers', e.target.value)}
-              disabled={isLoading}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed font-mono text-xs"
             />
           </div>
         </div>
