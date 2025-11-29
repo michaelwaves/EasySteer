@@ -3,6 +3,25 @@
 import { SteeringConfig } from './SteeringComparison';
 import { Loader2 } from 'lucide-react';
 
+// Emotion vectors mapping
+const EMOTION_VECTORS = {
+  happiness: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
+  sadness: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/sadness_response_avg_diff.pt',
+  curiosity: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/curiosity_response_avg_diff.pt',
+  anger: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/anger_response_avg_diff.pt',
+  fear: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/fear_response_avg_diff.pt',
+  surprise: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/surprise_response_avg_diff.pt'
+};
+
+const EMOTION_LABELS = {
+  happiness: 'Happiness',
+  sadness: 'Sadness',
+  curiosity: 'Curiosity',
+  anger: 'Anger',
+  fear: 'Fear',
+  surprise: 'Surprise'
+};
+
 interface ParameterPanelProps {
   config: SteeringConfig;
   onConfigChange: (config: SteeringConfig) => void;
@@ -49,29 +68,36 @@ export function ParameterPanel({
         {/* Model Path */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Model Path
+            Model Name
           </label>
           <input
             type="text"
             value={config.model_path}
-            onChange={(e) => handleChange('model_path', e.target.value)}
-            disabled={isLoading}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed"
+            disabled={true}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 bg-gray-50 cursor-not-allowed text-gray-600"
           />
         </div>
 
-        {/* Steering Vector Path */}
+        {/* Emotion Selector */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Steering Vector Path
+            Emotion
           </label>
-          <input
-            type="text"
-            value={config.steering_vector_path}
-            onChange={(e) => handleChange('steering_vector_path', e.target.value)}
+          <select
+            value={Object.entries(EMOTION_VECTORS).find(([_, path]) => path === config.steering_vector_path)?.[0] || 'happiness'}
+            onChange={(e) => {
+              const emotion = e.target.value as keyof typeof EMOTION_VECTORS;
+              handleChange('steering_vector_path', EMOTION_VECTORS[emotion]);
+            }}
             disabled={isLoading}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed"
-          />
+          >
+            {Object.entries(EMOTION_LABELS).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Generation Parameters */}
@@ -141,7 +167,7 @@ export function ParameterPanel({
             </label>
             <input
               type="range"
-              min="0"
+              min="-1"
               max="1"
               step="0.05"
               value={config.steering_vector_scale}

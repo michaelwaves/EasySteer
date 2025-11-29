@@ -38,7 +38,7 @@ export function SteeringComparison() {
     max_tokens: 256,
     repetition_penalty: 1.1,
     steering_vector_path: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
-    steering_vector_scale: 0.2,
+    steering_vector_scale: 0.5,
     target_layers: '8,9,10,11,12,13,14,15,16,17,18,19,20',
     algorithm: 'direct',
   });
