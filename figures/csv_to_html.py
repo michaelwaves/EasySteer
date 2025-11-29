@@ -83,3 +83,10 @@ def csv_to_html(csv_path, html_path, table_title="CSV Table"):
         f.write(html_content)
 
     print(f"HTML file created: {html_path}")
+
+
+csv_to_html(
+    csv_path="emotions.csv",
+    html_path="emotions_table.html",
+    table_title="Emotion Responses"
+)
