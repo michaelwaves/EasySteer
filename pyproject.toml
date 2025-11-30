@@ -18,6 +18,9 @@ dependencies = [
     "matplotlib",
     "accelerate",
     "gguf>=0.17.1",
+    "fastapi>=0.123.0",
+    "uvicorn>=0.38.0",
+    "setuptools>=80.9.0",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
