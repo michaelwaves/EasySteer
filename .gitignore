@@ -2,3 +2,5 @@ __pycache__/
 .idea/
 /temp/
 easysteer.egg-info/
+
+vectors/persona_vectors/Qwen3*

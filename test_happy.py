@@ -3,8 +3,9 @@ from vllm.steer_vectors.request import SteerVectorRequest
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+model = "Qwen3-14B"
 
-llm = LLM(model="Qwen/Qwen2.5-7B-Instruct", enable_steer_vector=True,
+llm = LLM(model=model, enable_steer_vector=True,
           enforce_eager=True, tensor_parallel_size=1, enable_chunked_prefill=False, max_model_len=16384)
 
 
@@ -17,12 +18,12 @@ target_layers = list(range(8, 20))
 scale = 1
 steering_vector = "sadness"
 
-baseline_request = SteerVectorRequest("baseline", 1, steer_vector_local_path=f"vectors/persona_vectors/Qwen2.5-7B-Instruct/{steering_vector}_response_avg_diff.pt",
+baseline_request = SteerVectorRequest("baseline", 1, steer_vector_local_path=f"vectors/persona_vectors/{model}/{steering_vector}_response_avg_diff.pt",
                                       scale=0, target_layers=target_layers, prefill_trigger_tokens=[-1], generate_trigger_tokens=[-1])
 baseline_output = llm.generate(
     text, steer_vector_request=baseline_request, sampling_params=sampling_params)
 
-happy_request = SteerVectorRequest("happy", 2, steer_vector_local_path=f"vectors/persona_vectors/Qwen2.5-7B-Instruct/{steering_vector}_response_avg_diff.pt",
+happy_request = SteerVectorRequest("happy", 2, steer_vector_local_path=f"vectors/persona_vectors/{model}/{steering_vector}_response_avg_diff.pt",
                                    scale=scale, target_layers=target_layers, prefill_trigger_tokens=[-1], generate_trigger_tokens=[-1])
 happy_output = llm.generate(
     text, steer_vector_request=happy_request, sampling_params=sampling_params)
