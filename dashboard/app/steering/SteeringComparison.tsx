@@ -37,7 +37,7 @@ export function SteeringComparison() {
     temperature: 0.6,
     max_tokens: 256,
     repetition_penalty: 1.1,
-    steering_vector_path: '/mnt/nw/home/m.yu/repos/EasySteer/vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
+    steering_vector_path: 'vectors/persona_vectors/Qwen2.5-7B-Instruct/happiness_response_avg_diff.pt',
     steering_vector_scale: 0.5,
     target_layers: '8,9,10,11,12,13,14,15,16,17,18,19,20',
     algorithm: 'direct',
@@ -116,9 +116,8 @@ export function SteeringComparison() {
     <div className="flex w-full h-full overflow-hidden">
       {/* Parameter Panel */}
       <div
-        className={`transition-all duration-300 ease-in-out border-r border-gray-200 overflow-y-auto ${
-          isPanelOpen ? 'w-80' : 'w-12'
-        }`}
+        className={`transition-all duration-300 ease-in-out border-r border-gray-200 overflow-y-auto ${isPanelOpen ? 'w-80' : 'w-12'
+          }`}
       >
         {isPanelOpen && (
           <ParameterPanel
