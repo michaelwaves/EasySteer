@@ -63,10 +63,14 @@ cd EasySteer/vllm-steer
 # Install with pre-compiled version (recommended)
 VLLM_USE_PRECOMPILED=1 pip install --editable .
 
+#with uv
+VLLM_USE_PRECOMPILED=1 uv pip install --editable . --prerelease=allow
+
 # Install EasySteer
 cd ..
 pip install --editable .
 ```
+
 
 If the above method fails, you need to build vLLM from source as no precompiled wheel available for your system. Here’s an example:
 
