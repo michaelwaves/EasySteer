@@ -1,0 +1,84 @@
+vram,gpu,cost_per_hour,provider,source
+15.9,RTX 5070 Ti,0.169,Vast.AI,https://cloud.vast.ai/
+31.8,RTX 5090,0.4238,Vast.AI,https://cloud.vast.ai/
+16.0,RTX 4080S,0.1964,Vast.AI,https://cloud.vast.ai/
+16.0,RTX 4080,0.3314,Vast.AI,https://cloud.vast.ai/
+12.0,RTX 4070 Ti,0.2061,Vast.AI,https://cloud.vast.ai/
+15.9,RTX 5060 Ti,0.3352,Vast.AI,https://cloud.vast.ai/
+16.0,RTX 4060 Ti,0.1743,Vast.AI,https://cloud.vast.ai/
+24.0,RTX 4090,0.6348,Vast.AI,https://cloud.vast.ai/
+48.0,RTX A6000,0.8024,Vast.AI,https://cloud.vast.ai/
+31.8,RTX 5090,0.6761,Vast.AI,https://cloud.vast.ai/
+24.0,RTX A5000,0.5334,Vast.AI,https://cloud.vast.ai/
+8.0,RTX 3070,0.1232,Vast.AI,https://cloud.vast.ai/
+24.0,RTX 3090 Ti,0.4685,Vast.AI,https://cloud.vast.ai/
+45.0,L40S,0.7514,Vast.AI,https://cloud.vast.ai/
+79.6,H100 SXM,2.3352,Vast.AI,https://cloud.vast.ai/
+45.0,L40S,0.6505,Vast.AI,https://cloud.vast.ai/
+45.0,L40,0.7424,Vast.AI,https://cloud.vast.ai/
+79.6,H100 SXM,2.1838,Vast.AI,https://cloud.vast.ai/
+79.6,H100 SXM,2.162,Vast.AI,https://cloud.vast.ai/
+45.0,L40S,0.7157,Vast.AI,https://cloud.vast.ai/
+93.6,H100 NVL,2.5514,Vast.AI,https://cloud.vast.ai/
+79.6,H100 SXM,2.2847,Vast.AI,https://cloud.vast.ai/
+45.0,L40S,1.1028,Vast.AI,https://cloud.vast.ai/
+192,MI300X,1.99,RunPod,https://console.runpod.io/deploy
+80,A100 PCIe,1.39,RunPod,https://console.runpod.io/deploy
+80,A100 SXM,1.49,RunPod,https://console.runpod.io/deploy
+24,A30,0.41,RunPod,https://console.runpod.io/deploy
+48,A40,0.4,RunPod,https://console.runpod.io/deploy
+180,B200,5.19,RunPod,https://console.runpod.io/deploy
+8,RTX 3070,0,RunPod,https://console.runpod.io/deploy
+10,RTX 3080,0,RunPod,https://console.runpod.io/deploy
+12,RTX 3080 Ti,0,RunPod,https://console.runpod.io/deploy
+24,RTX 3090,0.46,RunPod,https://console.runpod.io/deploy
+12,RTX 4070 Ti,0.5,RunPod,https://console.runpod.io/deploy
+16,RTX 4080,0.5,RunPod,https://console.runpod.io/deploy
+16,RTX 4080 SUPER,0.5,RunPod,https://console.runpod.io/deploy
+24,RTX 4090,0.59,RunPod,https://console.runpod.io/deploy
+16,RTX 5080,0.59,RunPod,https://console.runpod.io/deploy
+32,RTX 5090,0.89,RunPod,https://console.runpod.io/deploy
+80,H100 SXM,2.69,RunPod,https://console.runpod.io/deploy
+94,H100 NVL,3.07,RunPod,https://console.runpod.io/deploy
+80,H100 PCIe,2.39,RunPod,https://console.runpod.io/deploy
+141,H200 SXM,3.59,RunPod,https://console.runpod.io/deploy
+143,NVIDIA H200 NVL,3.39,RunPod,https://console.runpod.io/deploy
+24,L4,0.39,RunPod,https://console.runpod.io/deploy
+48,L40,0.99,RunPod,https://console.runpod.io/deploy
+48,L40S,0.86,RunPod,https://console.runpod.io/deploy
+16,RTX 2000 Ada,0.24,RunPod,https://console.runpod.io/deploy
+20,RTX 4000 Ada,0.26,RunPod,https://console.runpod.io/deploy
+20,RTX 4000 Ada SFF,0.44,RunPod,https://console.runpod.io/deploy
+32,RTX 5000 Ada,0.83,RunPod,https://console.runpod.io/deploy
+48,RTX 6000 Ada,0.77,RunPod,https://console.runpod.io/deploy
+6,RTX A2000,0.5,RunPod,https://console.runpod.io/deploy
+16,RTX A4000,0.25,RunPod,https://console.runpod.io/deploy
+20,RTX A4500,0.25,RunPod,https://console.runpod.io/deploy
+24,RTX A5000,0.27,RunPod,https://console.runpod.io/deploy
+48,RTX A6000,0.49,RunPod,https://console.runpod.io/deploy
+96,RTX PRO 6000 MaxQ,1.64,RunPod,https://console.runpod.io/deploy
+96,RTX PRO 6000,1.84,RunPod,https://console.runpod.io/deploy
+96,RTX PRO 6000 WK,2.09,RunPod,https://console.runpod.io/deploy
+16,V100 FHHL,0,RunPod,https://console.runpod.io/deploy
+16,Tesla V100,0,RunPod,https://console.runpod.io/deploy
+16,V100 SXM2,0,RunPod,https://console.runpod.io/deploy
+96,GH200 (96 GB),1.49,Lambda Labs,https://cloud.lambda.ai/instances
+180,B200 (180 GB SXM6),4.99,Lambda Labs,https://cloud.lambda.ai/instances
+80,H100 (80 GB SXM5),2.99,Lambda Labs,https://cloud.lambda.ai/instances
+80,H100 (80 GB SXM5),3.09,Lambda Labs,https://cloud.lambda.ai/instances
+80,H100 (80 GB SXM5),3.19,Lambda Labs,https://cloud.lambda.ai/instances
+80,H100 (80 GB SXM5),3.29,Lambda Labs,https://cloud.lambda.ai/instances
+80,H100 (80 GB PCIe),2.49,Lambda Labs,https://cloud.lambda.ai/instances
+80,A100 (80 GB SXM4),1.79,Lambda Labs,https://cloud.lambda.ai/instances
+24,A10 (24 GB PCIe),0.75,Lambda Labs,https://cloud.lambda.ai/instances
+24,RTX 6000 (24 GB),0.5,Lambda Labs,https://cloud.lambda.ai/instances
+40,A100 (40 GB PCIe),1.29,Lambda Labs,https://cloud.lambda.ai/instances
+40,A100 (40 GB SXM4),1.29,Lambda Labs,https://cloud.lambda.ai/instances
+40,A100 (40 GB PCIe),1.29,Lambda Labs,https://cloud.lambda.ai/instances
+40,A100 (40 GB PCIe),1.29,Lambda Labs,https://cloud.lambda.ai/instances
+40,A100 (40 GB SXM4),1.29,Lambda Labs,https://cloud.lambda.ai/instances
+48,A6000 (48 GB),0.8,Lambda Labs,https://cloud.lambda.ai/instances
+48,A6000 (48 GB),0.8,Lambda Labs,https://cloud.lambda.ai/instances
+48,A6000 (48 GB),0.8,Lambda Labs,https://cloud.lambda.ai/instances
+16,Tesla V100 (16 GB),0.55,Lambda Labs,https://cloud.lambda.ai/instances
+0,N/A,0.2,Lambda Labs,https://cloud.lambda.ai/instances
